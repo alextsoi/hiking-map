@@ -65,7 +65,7 @@
 		var loaded = 0;
 		function triggerSorting() {
 			loaded++;
-			var keys = Object.keys(mapData).sort();
+			var keys = Object.keys(mapData).sort(function(a, b){return b-a});
 			var total = 0;
 			$('#map-list-items').html('');
 			keys.forEach(function(key){
