@@ -45,6 +45,14 @@ canvas{
     padding: 15px;
     border-bottom: 1px solid #eeeeee;
     width: 100%;
+    transition: background-color 250ms;
+    &:not(.summary){
+        cursor: pointer;
+        &:hover,
+        &.active{
+            background-color: #f0f0f0;
+        }
+    }
 }
 #map-list-items > li:last-child{
     border-bottom-width: 0;

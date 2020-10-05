@@ -44,7 +44,12 @@ canvas {
 #map-list-items > li {
   padding: 15px;
   border-bottom: 1px solid #eeeeee;
-  width: 100%; }
+  width: 100%;
+  transition: background-color 250ms; }
+  #map-list-items > li:not(.summary) {
+    cursor: pointer; }
+    #map-list-items > li:not(.summary):hover, #map-list-items > li:not(.summary).active {
+      background-color: #f0f0f0; }
 
 #map-list-items > li:last-child {
   border-bottom-width: 0; }

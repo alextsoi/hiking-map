@@ -29,6 +29,8 @@
 		});
 		var numberOfRoutes = 10;
 		var mapData = {};
+		var defaultColor = '#ef476f';
+		var selectedColor = '#073b4c';
 		map.on('load', function () {
 			for (var i = 1; i <= numberOfRoutes; i++) {
 				(function (index) {
@@ -36,7 +38,8 @@
 						mapData[index] = {
 							name: data.features[0].properties.name,
 							time: moment(data.features[0].properties.time).format('YYYY-MM-DD HH:mm:ss'),
-							length: turf.length(data.features[0]).toLocaleString()
+							length: turf.length(data.features[0]).toLocaleString(),
+							data: data
 						};
 						map.addSource('route' + index, {
 							'type': 'geojson',
@@ -51,7 +54,7 @@
 								'line-cap': 'round'
 							},
 							'paint': {
-								'line-color': 'rgba(255, 65, 77, 1)',
+								'line-color': defaultColor,
 								'line-width': 1
 							}
 						});
@@ -61,7 +64,7 @@
 			}
 		});
 		var selectedRoute = null;
-		var template = '<li><div class="title"><strong>{name}</strong></div><div class="time">{time}</time><div class="length">{length}</div></li>';
+		var template = '<li data-index="{index}"><div class="title"><strong>{name}</strong></div><div class="time">{time}</time><div class="length">{length}</div></li>';
 		var loaded = 0;
 		function triggerSorting() {
 			loaded++;
@@ -72,6 +75,7 @@
 				var newTemplate = template.replace('{name}', mapData[key].name.replace('**', ''));
 				newTemplate = newTemplate.replace('{time}', mapData[key].time);
 				newTemplate = newTemplate.replace('{length}', mapData[key].length + 'km');
+				newTemplate = newTemplate.replace('{index}', key);
 				$('#map-list-items').append(newTemplate);
 				total += parseFloat(mapData[key].length);
 			});
@@ -79,6 +83,32 @@
 				$('#map-list-items').prepend('<li class="summary"><span class="text">Total:</span><span class="total">' + total.toFixed(2) +'km</span></li>');
 			}
 		}
+		var lastSelectedLayer = null;
+		$('body').on('click', '#map-list-items li', function(e){
+			e.preventDefault();
+			$('#map-list-items li').removeClass('active');
+			if($(this).is(':not(.summary)')){
+				$(this).addClass('active');
+				var index = $(this).data('index');
+				if(lastSelectedLayer){
+					map.setPaintProperty('route' + lastSelectedLayer, 'line-color', defaultColor);
+					map.setPaintProperty('route' + lastSelectedLayer, 'line-width', 1);
+				}
+				lastSelectedLayer = index;
+				if(typeof index !== 'undefined' && typeof mapData[index].data !== 'undefined'){
+					var coordinates = mapData[index].data.features[0].geometry.coordinates;
+					var bounds = coordinates.reduce(function (bounds, coord) {
+						return bounds.extend(coord);
+					}, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+					map.fitBounds(bounds, {
+						padding: 20
+					});
+					map.setPaintProperty('route' + lastSelectedLayer, 'line-color', selectedColor);
+					map.setPaintProperty('route' + lastSelectedLayer, 'line-width', 2);
+				}
+			}
+		});
 	</script>
 </body>
 
