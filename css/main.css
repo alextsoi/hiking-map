@@ -16,6 +16,9 @@ body {
   position: relative;
   height: 100%; }
 
+canvas {
+  outline: none; }
+
 #map-wrapper {
   display: flex;
   height: 100%; }

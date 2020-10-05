@@ -27,7 +27,7 @@
 			center: [114.1535941, 22.3700556],
 			zoom: 10.5
 		});
-		var numberOfRoutes = 9;
+		var numberOfRoutes = 10;
 		var mapData = {};
 		map.on('load', function () {
 			for (var i = 1; i <= numberOfRoutes; i++) {
@@ -52,7 +52,7 @@
 							},
 							'paint': {
 								'line-color': 'rgba(255, 65, 77, 1)',
-								'line-width': 2
+								'line-width': 1
 							}
 						});
 						triggerSorting();
@@ -67,6 +67,7 @@
 			loaded++;
 			var keys = Object.keys(mapData).sort();
 			var total = 0;
+			$('#map-list-items').html('');
 			keys.forEach(function(key){
 				var newTemplate = template.replace('{name}', mapData[key].name.replace('**', ''));
 				newTemplate = newTemplate.replace('{time}', mapData[key].time);
