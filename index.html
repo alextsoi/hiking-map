@@ -20,7 +20,15 @@
 		</div>
 	</div>
 	<script>
-		var numberOfRoutes = 11;
+		function reduceMarks(range, n){
+			var marks=[]
+			for( var i = 0 ; i < range.length ; i += n){
+				marks.push(range[i]);
+			}
+			return marks;
+		}
+
+		var numberOfRoutes = 12;
 		mapboxgl.accessToken = "pk.eyJ1IjoieWZ0c29peWZ0c29pIiwiYSI6ImNqcnAweTdsbTE5OG40NHA5b2VvaW05Y3UifQ.W_WnayZjcP21QE4h-eFYYQ";
 		var map = new mapboxgl.Map({
 			container: "map",
@@ -32,36 +40,41 @@
 		var defaultColor = '#ef476f';
 		var selectedColor = '#073b4c';
 		map.on('load', function () {
-			for (var i = 1; i <= numberOfRoutes; i++) {
-				(function (index) {
-					$.getJSON('./geojson/' + index + '.geojson', function (data) {
-						mapData[index] = {
-							name: data.features[0].properties.name,
-							time: moment(data.features[0].properties.time).format('YYYY-MM-DD HH:mm:ss'),
-							length: turf.length(data.features[0]).toLocaleString(),
-							data: data
-						};
-						map.addSource('route' + index, {
-							'type': 'geojson',
-							'data': data
+			map.loadImage('footprint_4.png', function (err, image) {
+				map.addImage('footprintpattern', image);
+				for (var i = 1; i <= numberOfRoutes; i++) {
+					(function (index) {
+						$.getJSON('./geojson/' + index + '.geojson', function (data) {
+							// data.features[0].geometry.coordinates = reduceMarks(data.features[0].geometry.coordinates, 1);
+							mapData[index] = {
+								name: data.features[0].properties.name,
+								time: moment(data.features[0].properties.time).format('YYYY-MM-DD HH:mm:ss'),
+								length: turf.length(data.features[0]).toLocaleString(),
+								data: data
+							};
+							map.addSource('route' + index, {
+								'type': 'geojson',
+								'data': data
+							});
+							map.addLayer({
+								'id': 'route' + index,
+								'type': 'line',
+								'source': 'route' + index,
+								'layout': {
+									'line-join': 'round',
+									'line-cap': 'round'
+								},
+								'paint': {
+									// 'line-pattern': 'footprintpattern',
+									'line-color': defaultColor,
+									'line-width': 2
+								}
+							});
+							triggerSorting();
 						});
-						map.addLayer({
-							'id': 'route' + index,
-							'type': 'line',
-							'source': 'route' + index,
-							'layout': {
-								'line-join': 'round',
-								'line-cap': 'round'
-							},
-							'paint': {
-								'line-color': defaultColor,
-								'line-width': 1
-							}
-						});
-						triggerSorting();
-					});
-				})(i);
-			}
+					})(i);
+				}
+			});
 		});
 		var selectedRoute = null;
 		var template = '<li data-index="{index}"><div class="title"><strong>{name}</strong></div><div class="time">{time}</time><div class="length">{length}</div></li>';
