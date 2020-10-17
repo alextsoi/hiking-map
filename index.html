@@ -40,8 +40,8 @@
 		var defaultColor = '#ef476f';
 		var selectedColor = '#073b4c';
 		map.on('load', function () {
-			map.loadImage('footprint_4.png', function (err, image) {
-				map.addImage('footprintpattern', image);
+			// map.loadImage('footprint_4.png', function (err, image) {
+			// map.addImage('footprintpattern', image);
 				for (var i = 1; i <= numberOfRoutes; i++) {
 					(function (index) {
 						$.getJSON('./geojson/' + index + '.geojson', function (data) {
@@ -74,7 +74,7 @@
 						});
 					})(i);
 				}
-			});
+			// });
 		});
 		var selectedRoute = null;
 		var template = '<li data-index="{index}"><div class="title"><strong>{name}</strong></div><div class="time">{time}</time><div class="length">{length}</div></li>';
