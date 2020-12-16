@@ -4,8 +4,8 @@
 <head>
 	<title>Hiking Map</title>
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
-	<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link href="css/main.css" rel="stylesheet" />
 	<script src="https://npmcdn.com/@turf/turf@5.1.6/turf.min.js"></script>
@@ -32,14 +32,27 @@
 		mapboxgl.accessToken = "pk.eyJ1IjoieWZ0c29peWZ0c29pIiwiYSI6ImNqcnAweTdsbTE5OG40NHA5b2VvaW05Y3UifQ.W_WnayZjcP21QE4h-eFYYQ";
 		var map = new mapboxgl.Map({
 			container: "map",
-			style: "mapbox://styles/yftsoiyftsoi/cjrp3f4uk5m1n2spc8w7jrqoi",
+			style: 'mapbox://styles/mapbox-map-design/ckhqrf2tz0dt119ny6azh975y',
+			pitch: 65,
+			bearing: -10,
+			//style: "mapbox://styles/yftsoiyftsoi/cjrp3f4uk5m1n2spc8w7jrqoi",
 			center: [114.1535941, 22.3700556],
-			zoom: 10.5
+			zoom: 11.5
 		});
 		var mapData = {};
-		var defaultColor = '#ef476f';
-		var selectedColor = '#073b4c';
+		var defaultColor = '#ffadad';
+		var selectedColor = '#caffbf';
 		map.on('load', function () {
+
+			map.addSource('mapbox-dem', {
+				'type': 'raster-dem',
+				'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+				'tileSize': 512,
+				'maxzoom': 14
+			});
+			// add the DEM source as a terrain layer with exaggerated height
+			map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 2.5 });
+
 			// map.loadImage('footprint_4.png', function (err, image) {
 			// map.addImage('footprintpattern', image);
 				for (var i = 1; i <= numberOfRoutes; i++) {
