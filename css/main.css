@@ -103,4 +103,5 @@ button#toggle-style{
   font-size: 12px;
   cursor: pointer;
   outline: none;
+  z-index: 999999;
 }
