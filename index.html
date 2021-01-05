@@ -29,7 +29,7 @@
 			return marks;
 		}
 
-		var numberOfRoutes = 27;
+		var numberOfRoutes = 29;
 		mapboxgl.accessToken = "pk.eyJ1IjoieWZ0c29peWZ0c29pIiwiYSI6ImNqcnAweTdsbTE5OG40NHA5b2VvaW05Y3UifQ.W_WnayZjcP21QE4h-eFYYQ";
 
 		var currentStyle = 'styleFlat';
@@ -74,6 +74,8 @@
 			loaded++;
 			var keys = Object.keys(mapData).sort(function(a, b){return b-a});
 			var total = 0;
+			var yearTotal = 0;
+			var currentYear = (new Date()).getFullYear();
 			$('#map-list-items').html('');
 			keys.forEach(function(key){
 				var newTemplate = template.replace('{name}', mapData[key].name.replace('**', ''));
@@ -82,9 +84,12 @@
 				newTemplate = newTemplate.replace('{index}', key);
 				$('#map-list-items').append(newTemplate);
 				total += parseFloat(mapData[key].length);
+				var thisYear = (new Date(mapData[key].time)).getFullYear();
+				if(thisYear === currentYear) yearTotal += parseFloat(mapData[key].length);
 			});
 			if(loaded === numberOfRoutes){
 				finished = true;
+				$('#map-list-items').prepend('<li class="summary"><span class="text">Yearly Total:</span><span class="total">' + yearTotal.toFixed(2) +'km</span></li>');
 				$('#map-list-items').prepend('<li class="summary"><span class="text">Total:</span><span class="total">' + total.toFixed(2) +'km</span></li>');
 			}
 		}
