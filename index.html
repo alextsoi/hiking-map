@@ -68,6 +68,7 @@
 		};
 
 		var map;
+		var yearlyGoal = 500;
 
 		function triggerSorting() {
 			if(finished) return;
@@ -89,7 +90,7 @@
 			});
 			if(loaded === numberOfRoutes){
 				finished = true;
-				$('#map-list-items').prepend('<li class="summary"><span class="text">Yearly Total:</span><span class="total">' + yearTotal.toFixed(2) +'km</span></li>');
+				$('#map-list-items').prepend('<li class="summary"><span class="text">Yearly Total:</span><span class="total">' + yearTotal.toFixed(2) +' / ' + yearlyGoal + 'km</span></li>');
 				$('#map-list-items').prepend('<li class="summary"><span class="text">Total:</span><span class="total">' + total.toFixed(2) +'km</span></li>');
 			}
 		}
