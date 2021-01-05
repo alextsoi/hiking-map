@@ -100,6 +100,7 @@ canvas{
 
 @media (max-width: 500px){
     #map-list-items > li.summary{
-        min-width: calc(100vw - 100px);
+        width: calc(100vw - 100px);
+        min-width: 250px;
     }
 }
