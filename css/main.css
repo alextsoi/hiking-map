@@ -89,4 +89,6 @@ canvas {
 @media (max-width: 500px) {
   #map-list-items > li.summary {
     width: calc(100vw - 100px);
-    min-width: 250px; } }
+    min-width: 250px; }
+  #toggle-style {
+    display: none; } }

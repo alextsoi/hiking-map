@@ -86,8 +86,11 @@
 				newTemplate = newTemplate.replace('{index}', key);
 				$('#map-list-items').append(newTemplate);
 				total += parseFloat(mapData[key].length);
-				var thisYear = (new Date(mapData[key].time)).getFullYear();
-				if(thisYear === currentYear) yearTotal += parseFloat(mapData[key].length);
+				// var thisYear = (new Date(mapData[key].time)).getFullYear();
+				var thisYear = parseInt(mapData[key].time.substr(0,4));
+				if(thisYear === currentYear){
+					yearTotal += parseFloat(mapData[key].length);
+				}
 			});
 			if(loaded === numberOfRoutes){
 				finished = true;

@@ -103,4 +103,7 @@ canvas{
         width: calc(100vw - 100px);
         min-width: 250px;
     }
+    #toggle-style{
+        display: none;
+    }
 }
