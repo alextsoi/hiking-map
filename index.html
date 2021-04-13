@@ -29,7 +29,7 @@
 			return marks;
 		}
 
-		var numberOfRoutes = 39;
+		var numberOfRoutes = 40;
 		mapboxgl.accessToken = "pk.eyJ1IjoieWZ0c29peWZ0c29pIiwiYSI6ImNqcnAweTdsbTE5OG40NHA5b2VvaW05Y3UifQ.W_WnayZjcP21QE4h-eFYYQ";
 
 		var currentStyle = 'styleFlat';
@@ -104,7 +104,7 @@
 			else{
 				// data.features[0].geometry.coordinates = reduceMarks(data.features[0].geometry.coordinates, 1);
 				mapData[index] = {
-					name: data.features[0].properties.name,
+					name: '#' + index + ' - ' + data.features[0].properties.name,
 					time: moment(data.features[0].properties.time).format('YYYY-MM-DD HH:mm:ss'),
 					length: turf.length(data.features[0]).toLocaleString(),
 					data: data
